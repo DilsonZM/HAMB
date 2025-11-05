@@ -35,10 +35,15 @@ body.theme-dark .icon-btn .icon-moon{display:block}
 body:not(.theme-dark) .icon-btn .icon-sun{display:block}
 body:not(.theme-dark) .icon-btn .icon-moon{display:none}
 table{width:100%;border-collapse:collapse;}
+/* Avoid overlap between Valor and Días on desktop: add gutter and fixed column widths */
+#formNomina table{border-collapse:separate;border-spacing:8px 10px;table-layout:fixed}
+#formNomina th:nth-child(1), #formNomina td:nth-child(1){width:45%}
+#formNomina th:nth-child(2), #formNomina td:nth-child(2){width:45%}
+#formNomina th:nth-child(3), #formNomina td:nth-child(3){width:80px;text-align:center}
 .th, td{padding:7px 4px;font-size:1em;}
 th{color:#4ed3ad; font-weight:700;}
-td input[type="number"]{width:100%;max-width:220px;padding:8px;border-radius:10px;background:#ffffff;color:#1f2d3a;border:1px solid rgba(41,58,91,0.20);font-size:1em;box-shadow:0 2px 6px rgba(16,38,87,0.06)}
-.diasmini{width:40px;}
+td input[type="number"]{width:100%;max-width:100%;box-sizing:border-box;padding:8px;border-radius:10px;background:#ffffff;color:#1f2d3a;border:1px solid rgba(41,58,91,0.20);font-size:1em;box-shadow:0 2px 6px rgba(16,38,87,0.06)}
+.diasmini{width:68px;}
 .results{margin-top:18px;}
 .result-card{background:#f6f8ff; color:#1f2d3a; font-weight:600; padding:12px 14px;border-radius:14px;margin-bottom:10px;box-shadow:0 4px 12px rgba(16,38,87,0.08);border:1px solid rgba(41,58,91,0.10)}
 .result-label{color:#2a81ff;}
@@ -128,6 +133,12 @@ body.theme-dark .deductions-wrap .result-card .value{color:#ff8a8a;font-weight:8
 /* Emphasized NETO card in dark: gradient pill like the bank card */
 body.theme-dark .result-card.neto{background:linear-gradient(135deg,#58c6b9,#2fb28a);color:#071c14;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 30px rgba(0,0,0,0.45)}
 body.theme-dark .result-card.neto .value{color:#052116}
+
+/* Dark: lighten TOTAL DEDUCCIONES text for contrast */
+body.theme-dark .deduction-total{background:linear-gradient(180deg,#3a2424,#2a1b1b);color:#ffe6e6;border-left:4px solid #ff7d7d;border:1px solid rgba(255,255,255,0.08)}
+body.theme-dark .deduction-total .label{color:#ffd6d6}
+body.theme-dark .deduction-total .amount{color:#ffc1c1;font-weight:900}
+body.theme-dark .deduction-total::after{content:"";position:absolute;left:10px;right:10px;top:-1px;height:3px;border-radius:2px;background:linear-gradient(90deg,#ff8a8a,rgba(255,138,138,0))}
 
 /* Hacer el total de ingresos visualmente distinto al total de deducciones */
 .result-card.metric{position:relative}
