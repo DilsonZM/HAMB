@@ -126,9 +126,14 @@ body.theme-dark .switch-label{color:#c9d1de}
 .deductions-wrap .result-card{background:linear-gradient(180deg,#eefcf9, #e7fbf6);border-left:4px solid rgba(0,183,160,0.45)}
 body.theme-dark .incomes-wrap .result-card{background:#1a2330;border-left-color:#3aa9ff}
 /* Dark deductions: reddish cards with soft white/red labels and stronger red numbers */
-body.theme-dark .deductions-wrap .result-card{background:#2a1b1b;border-left-color:#ff6b6b}
-body.theme-dark .deductions-wrap .result-card .result-label{color:#ffdada}
-body.theme-dark .deductions-wrap .result-card .value{color:#ff8a8a;font-weight:800}
+body.theme-dark .deductions-wrap .result-card{background:#1a1f2b;border-left-color:rgba(255,255,255,0.08)}
+body.theme-dark .deductions-wrap .result-card .result-label{color:#dfe6f1}
+body.theme-dark .deductions-wrap .result-card .value{color:#e6eef6;font-weight:700}
+/* Highlight only Salud y Pensión in dark */
+body.theme-dark .deductions-wrap .result-card.salud .result-label,
+body.theme-dark .deductions-wrap .result-card.pension .result-label{color:#ffdada}
+body.theme-dark .deductions-wrap .result-card.salud .value,
+body.theme-dark .deductions-wrap .result-card.pension .value{color:#ff9a9a;font-weight:800}
 
 /* Emphasized NETO card in dark: gradient pill like the bank card */
 body.theme-dark .result-card.neto{background:linear-gradient(135deg,#58c6b9,#2fb28a);color:#071c14;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 30px rgba(0,0,0,0.45)}
@@ -138,16 +143,16 @@ body.theme-dark .result-card.neto .value{color:#052116}
 body.theme-dark .deduction-total{background:linear-gradient(180deg,#3a2424,#2a1b1b);color:#ffe6e6;border-left:4px solid #ff7d7d;border:1px solid rgba(255,255,255,0.08)}
 body.theme-dark .deduction-total .label{color:#ffd6d6}
 body.theme-dark .deduction-total .amount{color:#ffc1c1;font-weight:900}
-body.theme-dark .deduction-total::after{content:"";position:absolute;left:10px;right:10px;top:-1px;height:3px;border-radius:2px;background:linear-gradient(90deg,#ff8a8a,rgba(255,138,138,0))}
+/* remove top accent line on totals in dark */
 
 /* Hacer el total de ingresos visualmente distinto al total de deducciones */
 .result-card.metric{position:relative}
 /* Totals with accent line so they stand out */
 .incomes-wrap .result-card.metric{background:#f2f6ff;border-left-color:rgba(42,129,255,0.6)}
-.incomes-wrap .result-card.metric::after{content:"";position:absolute;left:10px;right:10px;top:-1px;height:3px;border-radius:2px;background:linear-gradient(90deg,#2a81ff,rgba(42,129,255,0));}
+/* no top accent line on totals */
 /* TOTAL DEDUCCIONES card in soft red with a red line */
 .deduction-total{background:linear-gradient(180deg,#fff6f6,#ffefef);border-left-color:rgba(244,67,54,0.55);}
-.deduction-total::after{content:"";position:absolute;left:10px;right:10px;top:-1px;height:3px;border-radius:2px;background:linear-gradient(90deg,#ff6b6b,rgba(255,107,107,0));}
+/* no top accent line on totals */
 /* En móviles, ocultar la tabla y mostrar lista tipo cards */
 @media (max-width:460px){
 	.boleta .boleta-table{display:none}

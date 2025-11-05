@@ -141,9 +141,9 @@ document.getElementById('formNomina').addEventListener('submit',function(e){
   let dedHtml = `
      <div class="section-heading">DEDUCCIONES</div>
      <div class="deductions-wrap">
-       <div class="result-card"><span class="result-label">🏥 Salud (4%):</span><span class="value">${formatea(salud)}</span></div>
-       <div class="result-card"><span class="result-label">🏦 Pensión (4%):</span><span class="value">${formatea(pension)}</span></div>`;
-  if(seguro>0){ dedHtml += `<div class="result-card"><span class="result-label">🛡️ Seguro olivos:</span><span class="value">${formatea(seguro)}</span></div>`; }
+       <div class="result-card salud"><span class="result-label">🏥 Salud (4%):</span><span class="value">${formatea(salud)}</span></div>
+       <div class="result-card pension"><span class="result-label">🏦 Pensión (4%):</span><span class="value">${formatea(pension)}</span></div>`;
+  if(seguro>0){ dedHtml += `<div class="result-card seguro"><span class="result-label">🛡️ Seguro olivos:</span><span class="value">${formatea(seguro)}</span></div>`; }
   dedHtml += `</div>`;
 
   document.getElementById('results').innerHTML= ingresosHtml + dedHtml + `
