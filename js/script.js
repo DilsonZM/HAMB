@@ -13,7 +13,8 @@ const EXTRA_TYPES = [
 const ADVANCED_STATE_KEY='nominaAdvancedVisible';
 let advancedConfigOpen=false;
 let advancedHasPreference=false;
-const fields = ['periodoNomina','salario','bono1','bono2','novedades','seguro','diasSalario','diasBono1','diasBono2','vacacionesEnabled','vacacionesRango','vacacionesDias','vacacionesMontoManualEnabled','vacacionesMontoManual','incapacidadEnabled','incapacidadTipo','incapacidadRango','incapacidadDias','incapacidadMontoManualEnabled','incapacidadMontoManual','permisoEnabled','permisoTipo','permisoRango','permisoDias','permisoMontoManualEnabled','permisoMontoManual','extrasEnabled','extraDiurnaHoras','extraNocturnaHoras','extraDominicalDiurnaHoras','extraDominicalNocturnaHoras','recargoNocturnoHoras','recargoDominicalDiurnoHoras','recargoDominicalNocturnoHoras','comisionesMonto'];
+const fields = ['periodoNomina','salario','bono1','bono2','novedades','seguro','diasSalario','diasBono1','diasBono2','vacacionesEnabled','vacacionesRango','vacacionesDias','vacacionesMontoManualEnabled','vacacionesMontoManual','incapacidadEnabled','incapacidadTipo','incapacidadRango','incapacidadDias','incapacidadMontoManualEnabled','incapacidadMontoManual','permisoEnabled','permisoTipo','permisoRango','permisoDias','permisoMontoManualEnabled','permisoMontoManual','extrasEnabled','comisionesMonto'];
+let extrasEntries = [];
 let vacacionesPicker = null;
 let incapacidadPicker = null;
 let permisoPicker = null;
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initAdvancedConfig();
   initPeriodSelector();
   initConfigSections();
+  initExtrasManager();
   loadState();
   recalcDaysFromRanges();
   autoUpdateWorkedDays();
@@ -176,7 +178,7 @@ function shouldAutoOpenAdvanced(){
     return true;
   }
   if(getNumber('comisionesMonto')>0){ return true; }
-  return EXTRA_TYPES.some(type=>getNumber(type.id)>0);
+  return extrasEntries.some(entry=>Number(entry.horas)>0);
 }
 
 function ensureAdvancedVisibleIfNeeded(){
@@ -187,6 +189,100 @@ function ensureAdvancedVisibleIfNeeded(){
   }else{
     setAdvancedVisibility(advancedConfigOpen,false);
   }
+}
+
+function generateExtraUid(){ return `extra-${Math.random().toString(36).slice(2,10)}`; }
+
+function createExtraEntry(typeId=EXTRA_TYPES[0]?.id||'', horas=''){
+  return {uid:generateExtraUid(),typeId,horas:horas===undefined||horas===null?'':String(horas)};
+}
+
+function sanitizeExtrasEntries(raw){
+  if(!Array.isArray(raw)) return [];
+  const validIds=new Set(EXTRA_TYPES.map(t=>t.id));
+  return raw.map(item=>{
+    const typeId=validIds.has(item?.typeId)?item.typeId:EXTRA_TYPES[0]?.id||'';
+    const horasRaw=item && Object.prototype.hasOwnProperty.call(item,'horas')?item.horas:'';
+    const horas=horasRaw===null||horasRaw===undefined?'' : String(horasRaw);
+    const uid=typeof item?.uid==='string'&&item.uid?item.uid:generateExtraUid();
+    return {uid,typeId,horas};
+  });
+}
+
+function initExtrasManager(){
+  const addBtn=document.getElementById('extrasAddBtn');
+  if(addBtn){
+    addBtn.addEventListener('click',()=>{
+      extrasEntries.push(createExtraEntry());
+      renderExtrasList();
+      saveStateAndUpdate();
+    });
+  }
+  renderExtrasList();
+}
+
+function renderExtrasList(){
+  const list=document.getElementById('extrasList');
+  if(!list) return;
+  list.innerHTML='';
+  if(extrasEntries.length===0){
+    const empty=document.createElement('div');
+    empty.className='extras-empty';
+    empty.textContent='Sin conceptos de horas extra por ahora.';
+    list.appendChild(empty);
+    return;
+  }
+  const frag=document.createDocumentFragment();
+  extrasEntries.forEach(entry=>{
+    const row=document.createElement('div');
+    row.className='extra-row';
+    row.dataset.uid=entry.uid;
+
+    const select=document.createElement('select');
+    select.className='extra-type';
+    select.setAttribute('aria-label','Tipo de hora extra o recargo');
+    EXTRA_TYPES.forEach(type=>{
+      const option=document.createElement('option');
+      option.value=type.id;
+      option.textContent=type.label;
+      if(type.id===entry.typeId){ option.selected=true; }
+      select.appendChild(option);
+    });
+    select.addEventListener('change',e=>{
+      entry.typeId=e.target.value;
+      saveStateAndUpdate();
+    });
+
+    const input=document.createElement('input');
+    input.type='number';
+    input.className='extra-hours';
+    input.min='0';
+    input.step='0.5';
+    input.placeholder='0';
+    input.setAttribute('aria-label','Cantidad de horas');
+    input.value=entry.horas===undefined||entry.horas===null?'' : entry.horas;
+    input.addEventListener('input',e=>{
+      entry.horas=e.target.value;
+      saveStateAndUpdate();
+    });
+
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.className='extra-remove';
+    remove.innerHTML='&times;';
+    remove.setAttribute('aria-label','Eliminar concepto de hora extra');
+    remove.addEventListener('click',()=>{
+      extrasEntries=extrasEntries.filter(item=>item.uid!==entry.uid);
+      renderExtrasList();
+      saveStateAndUpdate();
+    });
+
+    row.appendChild(select);
+    row.appendChild(input);
+    row.appendChild(remove);
+    frag.appendChild(row);
+  });
+  list.appendChild(frag);
 }
 
 function initConfigSections(){
@@ -260,6 +356,10 @@ function initConfigSections(){
   if(extrasToggle && extrasBody){
     extrasToggle.addEventListener('change',()=>{
       extrasBody.classList.toggle('hidden',!extrasToggle.checked);
+      if(extrasToggle.checked && extrasEntries.length===0){
+        extrasEntries.push(createExtraEntry());
+        renderExtrasList();
+      }
       saveStateAndUpdate();
     });
   }
@@ -366,6 +466,7 @@ function saveState(){
     if(el.type==='checkbox'){ data[id]=el.checked?'1':'0'; }
     else { data[id]=el.value; }
   });
+  data.extrasEntries=extrasEntries;
   try{ localStorage.setItem('nominaState',JSON.stringify(data)); }catch(e){}
 }
 
@@ -388,6 +489,17 @@ function loadState(){
       else { el.value=data[id]; }
     });
   }
+  extrasEntries=sanitizeExtrasEntries(data?.extrasEntries);
+  if(extrasEntries.length===0 && data){
+    EXTRA_TYPES.forEach(type=>{
+      const legacy=data[type.id];
+      const legacyNumber=Number(legacy);
+      if(Number.isFinite(legacyNumber) && legacyNumber>0){
+        extrasEntries.push(createExtraEntry(type.id,String(legacyNumber)));
+      }
+    });
+  }
+  renderExtrasList();
   syncSectionVisibility('vacaciones');
   syncSectionVisibility('incapacidad');
   syncSectionVisibility('permiso');
@@ -580,11 +692,18 @@ function calculatePayroll(){
   const extrasDetalle=[];
   let extrasTotal=0;
   if(extrasEnabled){
+    const aggregated={};
+    extrasEntries.forEach(entry=>{
+      const type=EXTRA_TYPES.find(t=>t.id===entry.typeId);
+      if(!type) return;
+      const horas=Number(entry.horas);
+      if(!Number.isFinite(horas) || horas<=0) return;
+      aggregated[type.id]=(aggregated[type.id]||0)+horas;
+    });
     EXTRA_TYPES.forEach(type=>{
-      const horas=getNumber(type.id);
+      const horas=aggregated[type.id];
       if(horas>0){
-        const valorRaw = type.mode==='overtime' ? hourValue * type.multiplier * horas : hourValue * type.multiplier * horas;
-        const valor=Math.round(valorRaw);
+        const valor=Math.round(hourValue * type.multiplier * horas);
         extrasDetalle.push({id:type.id,label:type.label,shortLabel:type.shortLabel,horas,valor,mode:type.mode});
         extrasTotal+=valor;
       }

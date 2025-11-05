@@ -156,51 +156,9 @@
           </div>
         </div>
         <div class="section-body hidden" id="extrasBody">
-          <div class="section-helper">Carga las horas exactas para cada tipo. Puedes mantenerlo cerrado si en el periodo no hay extras.</div>
-          <div class="extras-grid">
-            <div class="extra-card">
-              <div class="extra-label">Extra diurna</div>
-              <div class="extra-helper">+25%</div>
-              <input type="number" id="extraDiurnaHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Extra nocturna</div>
-              <div class="extra-helper">+75%</div>
-              <input type="number" id="extraNocturnaHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Extra dominical diurna</div>
-              <div class="extra-helper">+100%</div>
-              <input type="number" id="extraDominicalDiurnaHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Extra dominical nocturna</div>
-              <div class="extra-helper">+150%</div>
-              <input type="number" id="extraDominicalNocturnaHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Recargo nocturno</div>
-              <div class="extra-helper">+35%</div>
-              <input type="number" id="recargoNocturnoHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Recargo dominical</div>
-              <div class="extra-helper">+75%</div>
-              <input type="number" id="recargoDominicalDiurnoHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-            <div class="extra-card">
-              <div class="extra-label">Recargo dominical noct.</div>
-              <div class="extra-helper">+110%</div>
-              <input type="number" id="recargoDominicalNocturnoHoras" min="0" step="0.5" value="0">
-              <span class="extra-unit">horas</span>
-            </div>
-          </div>
+          <div class="section-helper">Agrega únicamente los conceptos necesarios. Cada línea permite escoger tipo y horas trabajadas.</div>
+          <div id="extrasList" class="extras-list" aria-live="polite"></div>
+          <button type="button" id="extrasAddBtn" class="btn btn-ghost">Agregar concepto</button>
         </div>
       </div>
 

@@ -39,7 +39,7 @@ Novedades recientes
 - Campos para registrar horas extra y comisiones prestacionales, y ajustes manuales opcionales para vacaciones/incapacidad.
 - Selector de periodo mensual que recalcula automáticamente los días válidos del mes y alerta cuando las fechas caen fuera de rango o se superponen.
 - Permisos remunerados o no remunerados con control de rangos y montos opcionales.
-- Horas extra y recargos separados por tipo (diurna, nocturna, dominical, recargos) ingresados en horas, calculados según el salario.
+- Gestor compacto de horas extra y recargos con filas dinámicas para añadir solo los conceptos necesarios, calculados según el salario.
 - Interruptor para mostrar/ocultar la sección de horas extra y recargos, manteniendo la UI limpia cuando no hay novedades.
 - Bloque de configuración adicional colapsable para mantener la interfaz principal enfocada en los datos básicos.
 - Los días trabajados se recalculan automáticamente restando vacaciones e incapacidades y se muestran alertas cuando los rangos de fechas se cruzan.

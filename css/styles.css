@@ -124,13 +124,15 @@ td input[type="number"]{width:100%;max-width:100%;box-sizing:border-box;padding:
 .manual-wrapper input[type="number"]{margin:0}
 .manual-toggle{font-size:0.78rem;color:#5c6c88;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .manual-toggle input{margin:0}
-.extras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
-.extra-card{position:relative;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.78);border:1px solid rgba(42,129,255,0.18);box-shadow:0 6px 18px rgba(16,38,87,0.08);display:flex;flex-direction:column;gap:10px;transition:transform .15s ease,box-shadow .15s ease}
-.extra-card:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,38,87,0.12)}
-.extra-card .extra-label{font-weight:700;color:#1d3970;font-size:0.9rem}
-.extra-card .extra-helper{font-size:0.72rem;color:#5380ff;background:rgba(83,128,255,0.18);padding:2px 8px;border-radius:20px;display:inline-block;width:max-content}
-.extra-card input{padding:10px;border-radius:10px;border:1px solid rgba(41,58,91,0.18);background:#f9fbff;font-size:0.95rem;color:#1f2d3a;font-variant-numeric:tabular-nums}
-.extra-card .extra-unit{font-size:0.75rem;color:#6b7c99;text-transform:uppercase;letter-spacing:1px}
+.extras-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.extras-empty{padding:12px;border-radius:10px;border:1px dashed rgba(42,129,255,0.35);background:rgba(42,129,255,0.08);color:#4b5e7f;font-size:0.82rem;font-weight:600;text-align:center}
+.extra-row{display:grid;grid-template-columns:minmax(140px,1fr) 94px 36px;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(246,248,255,0.9);border:1px solid rgba(42,129,255,0.18);box-shadow:0 4px 12px rgba(16,38,87,0.06)}
+.extra-row select{width:100%;padding:9px;border-radius:10px;border:1px solid rgba(41,58,91,0.22);background:#ffffff;color:#1f2d3a;font-size:0.9rem}
+.extra-row input{width:100%;padding:9px;border-radius:10px;border:1px solid rgba(41,58,91,0.22);background:#ffffff;color:#1f2d3a;font-size:0.9rem;font-variant-numeric:tabular-nums}
+.extra-row .extra-remove{width:32px;height:32px;border-radius:10px;border:1px solid rgba(42,129,255,0.25);background:rgba(42,129,255,0.12);color:#2a3f7f;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s ease;padding:0}
+.extra-row .extra-remove:hover{background:rgba(42,129,255,0.18)}
+.btn-ghost{margin-top:8px;padding:9px 12px;border-radius:12px;border:1px dashed rgba(42,129,255,0.4);background:rgba(42,129,255,0.08);color:#2a3f7f;font-weight:700;width:100%;cursor:pointer;transition:all .18s ease}
+.btn-ghost:hover{background:rgba(42,129,255,0.15)}
 .switch.small{width:38px;height:20px}
 .switch.small .slider{border-radius:24px}
 .switch.small .slider:before{height:14px;width:14px;top:3px;left:3px}
@@ -152,6 +154,12 @@ body.theme-dark .config-expander{background:#1a2330;border:1px solid rgba(255,25
 body.theme-dark .config-expander .chevron{color:#9db4d7}
 body.theme-dark .config-expander.active{background:#1f2b3c;border-color:rgba(120,178,255,0.25)}
 body.theme-dark .config-panel .extras-section{background:linear-gradient(145deg,rgba(28,60,88,0.55),rgba(24,46,70,0.65));border-color:rgba(120,178,255,0.25)}
+body.theme-dark .extras-empty{background:rgba(33,64,104,0.32);border-color:rgba(120,178,255,0.32);color:#c9d9f4}
+body.theme-dark .extra-row{background:rgba(24,36,54,0.88);border-color:rgba(120,178,255,0.26);box-shadow:0 6px 16px rgba(0,0,0,0.35)}
+body.theme-dark .extra-row select,body.theme-dark .extra-row input{background:#1b202b;border-color:rgba(255,255,255,0.12);color:#e6edf6}
+body.theme-dark .extra-row .extra-remove{background:rgba(120,178,255,0.16);border-color:rgba(120,178,255,0.3);color:#dbe6ff}
+body.theme-dark .btn-ghost{background:rgba(45,76,110,0.28);border-color:rgba(120,178,255,0.35);color:#cfe4ff}
+body.theme-dark .btn-ghost:hover{background:rgba(58,100,150,0.35)}
 body.theme-dark .switch .slider{background:#2a3140;box-shadow:inset 0 1px 0 rgba(0,0,0,0.2)}
 body.theme-dark .switch input:checked + .slider{background:linear-gradient(90deg,#00d1c7,#39b8ff)}
 /* Specific style for the Seguro toggle aligning with red palette in dark mode */
