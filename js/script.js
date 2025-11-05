@@ -38,17 +38,17 @@ document.getElementById('formNomina').addEventListener('submit',function(e){
   let neto=Math.round(totalIngresos-totalDeducciones);
 
   document.getElementById('results').innerHTML=
-    `<div class="result-card"><span class="result-label">Salario:</span> ${formatea(salarioProp)} <span class="float-right fr-blue">${diasSalario} días</span></div>
-     <div class="result-card"><span class="result-label">Extralegal:</span> ${formatea(bono1Prop)} <span class="float-right fr-blue">${diasBono1} días</span></div>
-     <div class="result-card"><span class="result-label">Alimentación:</span> ${formatea(bono2Prop)} <span class="float-right fr-blue">${diasBono2} días</span></div>
-     <div class="result-card metric">TOTAL INGRESOS: ${formatea(totalIngresos)}</div>
+    `<div class="result-card"><span class="result-label">Salario:</span><span class="value">${formatea(salarioProp)}</span><span class="float-right fr-blue">${diasSalario} días</span></div>
+     <div class="result-card"><span class="result-label">Extralegal:</span><span class="value">${formatea(bono1Prop)}</span><span class="float-right fr-blue">${diasBono1} días</span></div>
+     <div class="result-card"><span class="result-label">Alimentación:</span><span class="value">${formatea(bono2Prop)}</span><span class="float-right fr-blue">${diasBono2} días</span></div>
+     <div class="result-card metric"><span class="result-label">TOTAL INGRESOS:</span><span class="value">${formatea(totalIngresos)}</span></div>
      <div class="deductions">
-       <div class="result-card"><span class="result-label">Salud (4%):</span> <span class="float-right">${formatea(salud)}</span></div>
-       <div class="result-card"><span class="result-label">Pensión (4%):</span> <span class="float-right">${formatea(pension)}</span></div>
-       <div class="result-card"><span class="result-label">Seguro olivos:</span> <span class="float-right">${formatea(seguro)}</span></div>
+       <div class="result-card"><span class="result-label">Salud (4%):</span><span class="value">${formatea(salud)}</span></div>
+       <div class="result-card"><span class="result-label">Pensión (4%):</span><span class="value">${formatea(pension)}</span></div>
+       <div class="result-card"><span class="result-label">Seguro olivos:</span><span class="value">${formatea(seguro)}</span></div>
      </div>
-  <div class="result-card deduction-total"><span class="label">TOTAL DEDUCCIONES</span><span class="amount">${formatea(totalDeducciones)}</span></div>
-     <div class="result-card neto">NETO a recibir: ${formatea(neto)}</div>`;
+     <div class="result-card deduction-total"><span class="label">TOTAL DEDUCCIONES</span><span class="amount">${formatea(totalDeducciones)}</span></div>
+     <div class="result-card neto"><span class="result-label">NETO a recibir:</span><span class="value">${formatea(neto)}</span></div>`;
 
   document.getElementById('boletaFecha').innerText="Fecha de cálculo: "+fechaActual();
 
