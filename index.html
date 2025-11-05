@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nómina HAMB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="img/Logo.png" type="image/png">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-sim">
+      <img src="img/Logo.png" alt="Logo" class="logo-img">
+    </div>
+    <h2>CALCULADORA DE NÓMINA</h2>
+    <div class="toggle-row">
+      <input type="checkbox" id="switchMenos30">
+      <label for="switchMenos30" class="switch-label">¿Trabajaste menos de 30 días?</label>
+    </div>
+    <form id="formNomina">
+      <table>
+        <tr>
+          <th>Concepto</th>
+          <th>Valor 30 días</th>
+          <th id="colDias" class="hidden">Días</th>
+        </tr>
+        <tr>
+          <td>Salario Básico</td>
+          <td><input type="number" id="salario" value="2800000"></td>
+          <td><input type="number" id="diasSalario" class="diasmini hidden" min="0" max="30" value="30"></td>
+        </tr>
+        <tr>
+          <td>Bono Extralegal</td>
+          <td><input type="number" id="bono1" value="1400000"></td>
+          <td><input type="number" id="diasBono1" class="diasmini hidden" min="0" max="30" value="30"></td>
+        </tr>
+        <tr>
+          <td>Bono Alimentación</td>
+          <td><input type="number" id="bono2" value="452000"></td>
+          <td><input type="number" id="diasBono2" class="diasmini hidden" min="0" max="30" value="30"></td>
+        </tr>
+        <tr>
+          <td>Seguro los olivos</td>
+          <td colspan="2"><input type="number" id="seguro" value="8750"></td>
+        </tr>
+      </table>
+  <button type="submit" class="btn btn-primary">Calcular Nómina</button>
+  <button type="button" id="btnPDF" class="btn btn-secondary hidden">Descargar PDF</button>
+    </form>
+    <div class="results" id="results"></div>
+  <div class="boleta hidden" id="boletaResumen">
+      <div class="logo-sim"><img src="img/Logo.png" alt="Logo" class="logo-img small-logo"></div>
+      <span class="fecha" id="boletaFecha"></span>
+      <h3>Bauche Detallado</h3>
+      <div id="detalleBoleta"></div>
+      <div class="firma" id="firmaBoleta"></div>
+    </div>
+  </div>
+<script src="js/script.js"></script>
+
+</body>
+</html>
