@@ -67,6 +67,21 @@ td input[type="number"]{width:100%;max-width:220px;padding:8px;border-radius:10p
 	.result-card .value{order:2}
 	.result-card .float-right{order:3;min-width:0;display:block;text-align:right;margin-top:2px;width:100%;white-space:normal}
 }
+
+/* Config panel (sidebar-style) */
+.config-panel{background:#ffffff;border:1px solid rgba(41,58,91,0.10);border-radius:14px;padding:10px 12px;margin:12px 0;box-shadow:0 4px 12px rgba(16,38,87,0.06)}
+.segmented{display:flex;gap:8px;background:#f3f6ff;border:1px solid rgba(41,58,91,0.10);padding:4px;border-radius:12px;margin-bottom:8px}
+.segmented-btn{flex:1 1 0;background:transparent;border:0;padding:8px 10px;border-radius:10px;font-weight:700;color:#2b3a55;cursor:pointer}
+.segmented-btn.active{background:#ffffff;box-shadow:0 2px 6px rgba(16,38,87,0.06);color:#2a81ff}
+
+/* Dark theme overrides */
+body.theme-dark{background:#23292f;color:#ecf0f1}
+body.theme-dark .container{background:#292e36;box-shadow:0 10px 30px rgba(0,0,0,0.55)}
+body.theme-dark .result-card{background:#0b2a31;color:#9eead0;border-color:transparent;box-shadow:0 6px 18px rgba(3,10,14,0.45)}
+body.theme-dark .result-label{color:#7be7ff}
+body.theme-dark .btn-secondary{background:transparent;color:#cdeef3;border:1px solid rgba(206,239,246,0.12);box-shadow:none}
+body.theme-dark .btn-secondary:hover{background:rgba(255,255,255,0.04)}
+body.theme-dark .switch-label{color:#cfeff6}
 /* En móviles, ocultar la tabla y mostrar lista tipo cards */
 @media (max-width:460px){
 	.boleta .boleta-table{display:none}

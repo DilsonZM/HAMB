@@ -1,4 +1,18 @@
 function formatea(valor){return valor.toLocaleString("es-CO",{style:'currency',currency:'COP',maximumFractionDigits:0});}
+// Theme segmented control (Claro/Oscuro)
+const themeBtns = document.querySelectorAll('.theme-switch .segmented-btn');
+function setTheme(theme){
+  document.body.classList.toggle('theme-dark', theme==='dark');
+  themeBtns.forEach(b=>{
+    const active = b.dataset.theme===theme;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active? 'true':'false');
+  });
+  try{ localStorage.setItem('theme', theme); }catch(e){}
+}
+themeBtns.forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.theme)));
+try{ const saved=localStorage.getItem('theme'); if(saved){ setTheme(saved);} }catch(e){}
+
 // Switch menos de 30 días
 document.getElementById('switchMenos30').addEventListener('change',function(){
   let visible=this.checked;
@@ -14,18 +28,7 @@ function fechaActual(){
   const f = new Date();
   return `${f.getDate().toString().padStart(2,'0')}/${(f.getMonth()+1).toString().padStart(2,'0')}/${f.getFullYear()}`;
 }
-// Toggle mostrar/ocultar Bauche Detallado (solo visible si hay contenido)
-const baucheSwitch = document.getElementById('switchBauche');
-function syncBaucheVisibility(){
-  const boleta = document.getElementById('boletaResumen');
-  const detalle = document.getElementById('detalleBoleta');
-  const hasContent = detalle && detalle.innerHTML.trim().length > 0;
-  const show = baucheSwitch ? baucheSwitch.checked : true;
-  boleta.classList.toggle('hidden', !(show && hasContent));
-}
-if (baucheSwitch){
-  baucheSwitch.addEventListener('change', syncBaucheVisibility);
-}
+// Se removió el Bauche Detallado del DOM; mantenemos solo los resultados y PDF
 
 document.getElementById('formNomina').addEventListener('submit',function(e){
   e.preventDefault();
@@ -63,46 +66,8 @@ document.getElementById('formNomina').addEventListener('submit',function(e){
      <div class="result-card deduction-total"><span class="label">TOTAL DEDUCCIONES</span><span class="amount">${formatea(totalDeducciones)}</span></div>
      <div class="result-card neto"><span class="result-label">NETO a recibir:</span><span class="value">${formatea(neto)}</span></div>`;
 
-  document.getElementById('boletaFecha').innerText="Fecha de cálculo: "+fechaActual();
-
-  let detalleHTML=`
-    <div class="boleta-table">
-    <table>
-      <tr><th class="text-left">INGRESOS</th><th class="text-right">Valor</th></tr>
-      <tr><td class="text-left">Salario (${diasSalario} días)</td><td class="text-right">${formatea(salarioProp)}</td></tr>
-      <tr><td class="text-left">Extralegal (${diasBono1} días)</td><td class="text-right">${formatea(bono1Prop)}</td></tr>
-      <tr><td class="text-left">Alimentación (${diasBono2} días)</td><td class="text-right">${formatea(bono2Prop)}</td></tr>
-      <tr><th class="text-left">TOTAL INGRESOS</th><th class="text-right">${formatea(totalIngresos)}</th></tr>
-  <tr><th class="text-left" style="padding-top:10px;">DEDUCCIONES</th><th></th></tr>
-  <tr class="deduction"><td class="text-left">Salud (4%)</td><td class="text-right">${formatea(salud)}</td></tr>
-  <tr class="deduction"><td class="text-left">Pensión (4%)</td><td class="text-right">${formatea(pension)}</td></tr>
-  <tr class="deduction"><td class="text-left">Seguro olivos</td><td class="text-right">${formatea(seguro)}</td></tr>
-  <tr class="deduction-total"><th class="text-left small-label">TOTAL DEDUCCIONES</th><th class="text-right total-amount">${formatea(totalDeducciones)}</th></tr>
-      <tr><th class="text-left">NETO A PAGAR</th><th class="text-right"><span class="neto-badge">${formatea(neto)}</span></th></tr>
-    </table>
-    </div>`;
-
-  // Mobile-friendly list mirroring the top cards (shown only on small screens via CSS)
-  let detalleMobileHTML = `
-    <div class="mobile-list">
-      <div class="section-title">INGRESOS</div>
-      <div class="result-card"><span class="result-label">Salario:</span><span class="value">${formatea(salarioProp)}</span><span class="float-right fr-blue">${diasSalario} días</span></div>
-      <div class="result-card"><span class="result-label">Extralegal:</span><span class="value">${formatea(bono1Prop)}</span><span class="float-right fr-blue">${diasBono1} días</span></div>
-      <div class="result-card"><span class="result-label">Alimentación:</span><span class="value">${formatea(bono2Prop)}</span><span class="float-right fr-blue">${diasBono2} días</span></div>
-      <div class="result-card metric"><span class="result-label">TOTAL INGRESOS:</span><span class="value">${formatea(totalIngresos)}</span></div>
-      <div class="section-title" style="margin-top:8px">DEDUCCIONES</div>
-      <div class="result-card"><span class="result-label">Salud (4%):</span><span class="value">${formatea(salud)}</span></div>
-      <div class="result-card"><span class="result-label">Pensión (4%):</span><span class="value">${formatea(pension)}</span></div>
-      <div class="result-card"><span class="result-label">Seguro olivos:</span><span class="value">${formatea(seguro)}</span></div>
-      <div class="result-card deduction-total"><span class="label">TOTAL DEDUCCIONES</span><span class="amount">${formatea(totalDeducciones)}</span></div>
-      <div class="result-card neto"><span class="result-label">NETO A PAGAR:</span><span class="value">${formatea(neto)}</span></div>
-    </div>`;
-  document.getElementById('detalleBoleta').innerHTML=detalleHTML + detalleMobileHTML;
-  // Mostrar la boleta sólo si el usuario lo desea y ya hay contenido
-  syncBaucheVisibility();
+  // Mostrar botón de PDF (la boleta detallada fue removida de la UI)
   document.getElementById('btnPDF').classList.remove('hidden');
-  // No pedir ni mostrar firma (se removió por requerimiento)
-  document.getElementById('firmaBoleta').innerHTML='';
 
   document.getElementById('btnPDF').onclick=function(){
     const {jsPDF}=window.jspdf;
