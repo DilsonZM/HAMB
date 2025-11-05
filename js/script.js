@@ -53,6 +53,7 @@ document.getElementById('formNomina').addEventListener('submit',function(e){
   document.getElementById('boletaFecha').innerText="Fecha de cálculo: "+fechaActual();
 
   let detalleHTML=`
+    <div class="boleta-table">
     <table>
       <tr><th class="text-left">INGRESOS</th><th class="text-right">Valor</th></tr>
       <tr><td class="text-left">Salario (${diasSalario} días)</td><td class="text-right">${formatea(salarioProp)}</td></tr>
@@ -65,8 +66,25 @@ document.getElementById('formNomina').addEventListener('submit',function(e){
   <tr class="deduction"><td class="text-left">Seguro olivos</td><td class="text-right">${formatea(seguro)}</td></tr>
   <tr class="deduction-total"><th class="text-left small-label">TOTAL DEDUCCIONES</th><th class="text-right total-amount">${formatea(totalDeducciones)}</th></tr>
       <tr><th class="text-left">NETO A PAGAR</th><th class="text-right"><span class="neto-badge">${formatea(neto)}</span></th></tr>
-    </table>`;
-  document.getElementById('detalleBoleta').innerHTML=detalleHTML;
+    </table>
+    </div>`;
+
+  // Mobile-friendly list mirroring the top cards (shown only on small screens via CSS)
+  let detalleMobileHTML = `
+    <div class="mobile-list">
+      <div class="section-title">INGRESOS</div>
+      <div class="result-card"><span class="result-label">Salario:</span><span class="value">${formatea(salarioProp)}</span><span class="float-right fr-blue">${diasSalario} días</span></div>
+      <div class="result-card"><span class="result-label">Extralegal:</span><span class="value">${formatea(bono1Prop)}</span><span class="float-right fr-blue">${diasBono1} días</span></div>
+      <div class="result-card"><span class="result-label">Alimentación:</span><span class="value">${formatea(bono2Prop)}</span><span class="float-right fr-blue">${diasBono2} días</span></div>
+      <div class="result-card metric"><span class="result-label">TOTAL INGRESOS:</span><span class="value">${formatea(totalIngresos)}</span></div>
+      <div class="section-title" style="margin-top:8px">DEDUCCIONES</div>
+      <div class="result-card"><span class="result-label">Salud (4%):</span><span class="value">${formatea(salud)}</span></div>
+      <div class="result-card"><span class="result-label">Pensión (4%):</span><span class="value">${formatea(pension)}</span></div>
+      <div class="result-card"><span class="result-label">Seguro olivos:</span><span class="value">${formatea(seguro)}</span></div>
+      <div class="result-card deduction-total"><span class="label">TOTAL DEDUCCIONES</span><span class="amount">${formatea(totalDeducciones)}</span></div>
+      <div class="result-card neto"><span class="result-label">NETO A PAGAR:</span><span class="value">${formatea(neto)}</span></div>
+    </div>`;
+  document.getElementById('detalleBoleta').innerHTML=detalleHTML + detalleMobileHTML;
   document.getElementById('boletaResumen').classList.remove('hidden');
   document.getElementById('btnPDF').classList.remove('hidden');
   // No pedir ni mostrar firma (se removió por requerimiento)

@@ -39,6 +39,9 @@ td input[type="number"]{width:72px;padding:5px;border-radius:4px;background:#212
 .boleta{margin-top:18px;background:linear-gradient(180deg,#eef7f5 0%, #dff3ef 100%);border-radius:12px;padding:14px 14px; box-shadow:0 8px 20px rgba(3,10,14,0.28); color:#073734}
 .boleta h3{color:#0f6f6a; font-size:1.03em; margin-bottom:10px;}
 .boleta table{width:100%;border-collapse:separate;border-spacing:0 8px;background:transparent}
+.boleta .boleta-table{display:block}
+.boleta .mobile-list{display:none}
+.boleta .section-title{color:#0a6f5e;font-weight:800;font-size:0.95rem;margin:6px 2px}
 .boleta td, .boleta th{font-size:0.96em;padding:8px 10px;font-variant-numeric:tabular-nums}
 .boleta .metric{color:#0a6f5e;font-weight:800;font-size:0.98em}
 .firma{margin-top:14px;color:#2b2b66;font-weight:700}
@@ -57,6 +60,11 @@ td input[type="number"]{width:72px;padding:5px;border-radius:4px;background:#212
 	.result-card .float-right{min-width:48px}
 	td input[type="number"]{width:56px}
 	.diasmini{width:34px}
+}
+/* En móviles, ocultar la tabla y mostrar lista tipo cards */
+@media (max-width:460px){
+	.boleta .boleta-table{display:none}
+	.boleta .mobile-list{display:block}
 }
 /* Utility classes */
 .hidden{display:none!important;}
@@ -82,8 +90,8 @@ td input[type="number"]{width:72px;padding:5px;border-radius:4px;background:#212
 .boleta tr.deduction-total td{font-weight:900;font-size:1.02rem;color:#064f48}
 .boleta tr.deduction-total .total-amount{color:#064f48}
 
-/* Boleta: marcar filas de deducciones con fondo sutil */
-.boleta tr.deduction td{background:linear-gradient(90deg,rgba(0,119,102,0.12),rgba(0,119,102,0.04));color:#033f38;padding:10px;border-radius:6px;font-weight:700;border-left:3px solid rgba(0,119,102,0.14)}
+/* Boleta: marcar filas de deducciones — solo acento izquierdo, sin fondo adicional */
+.boleta tr.deduction td{background:transparent;color:#033f38;padding:8px;border-radius:0;font-weight:700;border-left:3px solid rgba(0,119,102,0.22)}
 
 /* Prevent the row backgrounds from creating oversized pills on very small widths */
 .boleta tr.deduction td:first-child{border-top-left-radius:6px;border-bottom-left-radius:6px}
