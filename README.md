@@ -4,7 +4,7 @@ Proyecto sencillo que contiene una calculadora de nómina proporcional en un ún
 
 Estructura relevante
 
-- `CaudataHAMB.html` — interfaz principal (usa `css/styles.css` y `js/script.js`).
+- `index.html` — interfaz principal (usa `css/styles.css` y `js/script.js`).
 - `css/styles.css` — estilos del proyecto.
 - `js/script.js` — lógica de la calculadora y generación de PDF (usa jsPDF desde CDN).
 - `img/Logo.png` y `img/logo.svg` — logos usados en la interfaz; el PDF incrusta un SVG embebido convertido a PNG para evitar problemas de CORS.
@@ -13,13 +13,13 @@ Prueba local rápida
 
 1. Abrir localmente
 
-   - Opción A (doble clic): abre `CaudataHAMB.html` en tu navegador por doble clic (funciona en muchos entornos).
+   - Opción A (doble clic): abre `index.html` en tu navegador por doble clic (funciona en muchos entornos).
    - Opción B (servidor local recomendado): para evitar restricciones del navegador con recursos locales, ejecuta un servidor HTTP desde la carpeta del proyecto:
 
 ```bash
 # si tienes Python 3
 python3 -m http.server 8000
-# luego abre http://localhost:8000/CaudataHAMB.html
+# luego abre http://localhost:8000/index.html
 ```
 
 2. Interactuar
@@ -32,6 +32,17 @@ Notas sobre el PDF y CORS
 
 - La generación del PDF incrusta un logo que proviene del SVG embebido en el propio código JS (data URL). Esto evita la mayoría de problemas de CORS asociados con cargar imágenes desde el sistema de archivos o desde dominios remotos.
 - Si por alguna razón tu navegador no puede crear el canvas a partir del SVG embebido, el código tiene un fallback que genera el PDF sin el logo.
+
+Novedades recientes
+
+- Panel de configuración para vacaciones e incapacidades con selección de rango en calendario y cálculo automático en la nómina.
+- Campos para registrar horas extra y comisiones prestacionales, y ajustes manuales opcionales para vacaciones/incapacidad.
+- Selector de periodo mensual que recalcula automáticamente los días válidos del mes y alerta cuando las fechas caen fuera de rango o se superponen.
+- Permisos remunerados o no remunerados con control de rangos y montos opcionales.
+- Horas extra y recargos separados por tipo (diurna, nocturna, dominical, recargos) ingresados en horas, calculados según el salario.
+- Interruptor para mostrar/ocultar la sección de horas extra y recargos, manteniendo la UI limpia cuando no hay novedades.
+- Bloque de configuración adicional colapsable para mantener la interfaz principal enfocada en los datos básicos.
+- Los días trabajados se recalculan automáticamente restando vacaciones e incapacidades y se muestran alertas cuando los rangos de fechas se cruzan.
 
 Cómo desactivar el logo en el PDF
 

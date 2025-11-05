@@ -5,6 +5,7 @@
   <title>Nómina HAMB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="img/Logo.png" type="image/png">
@@ -26,35 +27,218 @@
     </header>
     <!-- Panel de configuración -->
     <div class="config-panel">
-      <div class="toggle-row">
-        <label class="switch" for="switchMenos30">
-          <input type="checkbox" id="switchMenos30">
-          <span class="slider" aria-hidden="true"></span>
-        </label>
-        <label for="switchMenos30" class="switch-label small">¿Trabajaste menos de 30 días?</label>
+  <button type="button" class="config-expander" id="advancedConfigToggle" aria-expanded="false" aria-controls="advancedConfig">
+        <span class="label">Mostrar configuración adicional</span>
+        <span class="chevron" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="advanced-config hidden" id="advancedConfig">
+
+      <div class="config-section compact period-section">
+        <div class="section-title">Periodo de nómina</div>
+        <div class="field-grid single">
+          <div>
+            <label class="field-label" for="periodoNomina">Mes del cálculo</label>
+            <input type="month" id="periodoNomina">
+          </div>
+        </div>
       </div>
+
+      <div class="config-section">
+        <div class="section-header">
+          <label class="switch small" for="vacacionesEnabled">
+            <input type="checkbox" id="vacacionesEnabled">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <div class="section-titles">
+            <div class="section-title">Vacaciones</div>
+            <div class="section-helper">Calcula vacaciones sin perder el control de los días.</div>
+          </div>
+        </div>
+        <div class="section-body hidden" id="vacacionesBody">
+          <label class="field-label" for="vacacionesRango">Rango de fechas</label>
+          <input type="text" id="vacacionesRango" class="calendar-input" placeholder="Selecciona un rango" readonly>
+          <div class="field-grid">
+            <div>
+              <label class="field-label" for="vacacionesDias">Días de vacaciones</label>
+              <input type="number" id="vacacionesDias" min="0" max="30" step="0.01" value="0">
+            </div>
+            <div>
+              <label class="field-label" for="vacacionesMontoManual">Valor pagado</label>
+              <div class="manual-wrapper">
+                <input type="number" id="vacacionesMontoManual" min="0" step="1000" placeholder="Calculado" disabled>
+                <label class="manual-toggle"><input type="checkbox" id="vacacionesMontoManualEnabled">Editar</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <div class="section-header">
+          <label class="switch small" for="incapacidadEnabled">
+            <input type="checkbox" id="incapacidadEnabled">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <div class="section-titles">
+            <div class="section-title">Incapacidad</div>
+            <div class="section-helper">Considera incapacidades de origen común o laboral.</div>
+          </div>
+        </div>
+        <div class="section-body hidden" id="incapacidadBody">
+          <label class="field-label" for="incapacidadTipo">Tipo de incapacidad</label>
+          <select id="incapacidadTipo">
+            <option value="comun">Origen común</option>
+            <option value="laboral">Origen laboral</option>
+          </select>
+          <label class="field-label" for="incapacidadRango">Días afectados</label>
+          <input type="text" id="incapacidadRango" class="calendar-input" placeholder="Selecciona rango" readonly>
+          <div class="field-grid">
+            <div>
+              <label class="field-label" for="incapacidadDias">Total de días</label>
+              <input type="number" id="incapacidadDias" min="0" max="540" step="0.01" value="0">
+            </div>
+            <div>
+              <label class="field-label" for="incapacidadMontoManual">Valor pagado</label>
+              <div class="manual-wrapper">
+                <input type="number" id="incapacidadMontoManual" min="0" step="1000" placeholder="Calculado" disabled>
+                <label class="manual-toggle"><input type="checkbox" id="incapacidadMontoManualEnabled">Editar</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <div class="section-header">
+          <label class="switch small" for="permisoEnabled">
+            <input type="checkbox" id="permisoEnabled">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <div class="section-titles">
+            <div class="section-title">Permisos</div>
+            <div class="section-helper">Incluye permisos remunerados o no remunerados dentro del periodo.</div>
+          </div>
+        </div>
+        <div class="section-body hidden" id="permisoBody">
+          <label class="field-label" for="permisoTipo">Tipo de permiso</label>
+          <select id="permisoTipo">
+            <option value="remunerado">Remunerado</option>
+            <option value="no_remunerado">No remunerado</option>
+          </select>
+          <label class="field-label" for="permisoRango">Fechas del permiso</label>
+          <input type="text" id="permisoRango" class="calendar-input" placeholder="Selecciona rango" readonly>
+          <div class="field-grid">
+            <div>
+              <label class="field-label" for="permisoDias">Total de días</label>
+              <input type="number" id="permisoDias" min="0" max="30" step="0.01" value="0">
+            </div>
+            <div>
+              <label class="field-label" for="permisoMontoManual">Valor pagado</label>
+              <div class="manual-wrapper">
+                <input type="number" id="permisoMontoManual" min="0" step="1000" placeholder="Calculado" disabled>
+                <label class="manual-toggle"><input type="checkbox" id="permisoMontoManualEnabled">Editar</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section extras-section">
+        <div class="section-header">
+          <label class="switch small" for="extrasEnabled">
+            <input type="checkbox" id="extrasEnabled">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <div class="section-titles">
+            <div class="section-title">Horas extra y recargos</div>
+            <div class="section-helper">Introduce las horas trabajadas; se liquidan según el salario y la normativa.</div>
+          </div>
+        </div>
+        <div class="section-body hidden" id="extrasBody">
+          <div class="section-helper">Carga las horas exactas para cada tipo. Puedes mantenerlo cerrado si en el periodo no hay extras.</div>
+          <div class="extras-grid">
+            <div class="extra-card">
+              <div class="extra-label">Extra diurna</div>
+              <div class="extra-helper">+25%</div>
+              <input type="number" id="extraDiurnaHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Extra nocturna</div>
+              <div class="extra-helper">+75%</div>
+              <input type="number" id="extraNocturnaHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Extra dominical diurna</div>
+              <div class="extra-helper">+100%</div>
+              <input type="number" id="extraDominicalDiurnaHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Extra dominical nocturna</div>
+              <div class="extra-helper">+150%</div>
+              <input type="number" id="extraDominicalNocturnaHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Recargo nocturno</div>
+              <div class="extra-helper">+35%</div>
+              <input type="number" id="recargoNocturnoHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Recargo dominical</div>
+              <div class="extra-helper">+75%</div>
+              <input type="number" id="recargoDominicalDiurnoHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+            <div class="extra-card">
+              <div class="extra-label">Recargo dominical noct.</div>
+              <div class="extra-helper">+110%</div>
+              <input type="number" id="recargoDominicalNocturnoHoras" min="0" step="0.5" value="0">
+              <span class="extra-unit">horas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section compact">
+        <div class="section-title">Comisiones y otros ingresos</div>
+        <div class="field-grid">
+          <div>
+            <label class="field-label" for="comisionesMonto">Comisiones</label>
+            <input type="number" id="comisionesMonto" min="0" step="500" value="0">
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+      <div id="daysWarning" class="days-warning hidden"></div>
     </div>
     <form id="formNomina">
       <table>
         <tr>
           <th>Concepto</th>
           <th>Valor 30 días</th>
-          <th id="colDias" class="hidden">Días</th>
+          <th>Días</th>
         </tr>
         <tr>
           <td>Salario Básico</td>
           <td><input type="number" id="salario" value="0" min="0"></td>
-          <td><input type="number" id="diasSalario" class="diasmini hidden" min="0" max="30" value="30"></td>
+          <td><input type="number" id="diasSalario" class="diasmini" min="0" max="30" step="0.01" value="30"></td>
         </tr>
         <tr>
           <td>Bono Extralegal</td>
           <td><input type="number" id="bono1" value="0" min="0"></td>
-          <td><input type="number" id="diasBono1" class="diasmini hidden" min="0" max="30" value="30"></td>
+          <td><input type="number" id="diasBono1" class="diasmini" min="0" max="30" step="0.01" value="30"></td>
         </tr>
         <tr>
           <td>Bono Alimentación</td>
           <td><input type="number" id="bono2" value="0" min="0"></td>
-          <td><input type="number" id="diasBono2" class="diasmini hidden" min="0" max="30" value="30"></td>
+          <td><input type="number" id="diasBono2" class="diasmini" min="0" max="30" step="0.01" value="30"></td>
         </tr>
         <tr>
           <td>Novedades (reembolsos)</td>
@@ -62,13 +246,7 @@
         </tr>
         <tr>
           <td>Seguro Los Olivos</td>
-          <td><input type="number" id="seguro" value="0" min="0" disabled></td>
-          <td class="text-right">
-            <label class="switch" for="seguroEnabled">
-              <input type="checkbox" id="seguroEnabled">
-              <span class="slider" aria-hidden="true"></span>
-            </label>
-          </td>
+          <td colspan="2"><input type="number" id="seguro" min="0" value="0" placeholder="0"></td>
         </tr>
       </table>
   <button type="submit" class="btn btn-primary">Calcular Nómina</button>
@@ -77,6 +255,8 @@
     <div class="results" id="results"></div>
     <!-- Sección de bauche detallado removida por ahora; se podrá reactivar a futuro -->
   </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="js/script.js"></script>
 
 </body>
